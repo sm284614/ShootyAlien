@@ -17,6 +17,13 @@ namespace AlienShooty.Stage
         {
             _map = new Map(contentLoader, stageFile);
             _entities = new List<Entity>();
+            LoadEntities(contentLoader);
+        }
+        private void LoadEntities(ContentLoader contentLoader)
+        {
+            EntityTemplate playerTemplate = new EntityTemplate("Player", "robot", contentLoader.LoadTexture("robot"), 5);
+            Entity player = new Entity(playerTemplate, new Vector2(100, 100));
+            _entities.Add(player);
         }
         public void Update(GameTime gameTime)
         {

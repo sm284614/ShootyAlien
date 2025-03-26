@@ -8,9 +8,9 @@ namespace AlienShooty.Stage
         public Vector2 Velocity;
         public Rectangle BoundingBox;
         public float Rotation;
-        public PhysicsData()
+        public PhysicsData(Vector2 position)
         {
-            Position = Vector2.Zero;
+            Position = position;
             Velocity = Vector2.Zero;
             BoundingBox = new Rectangle(0, 0, 0, 0);
             Rotation = 0;
