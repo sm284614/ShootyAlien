@@ -19,8 +19,8 @@ namespace AlienShooty.Stage
         public Map(ContentLoader contentLoader, string stageFile)
         {
             _tileSize = new Point(32, 32);
-            _tileSet = contentLoader.LoadTexture("tileset");
-            Point tileSetSize = new Point(6, 6);
+            _tileSet = contentLoader.LoadTexture("spacestationtiles32");
+            Point tileSetSize = new Point(8, 8);
             _tileDictionary = LoadTiles(contentLoader, _tileSet, tileSetSize, _tileSize);
             _mapData = LoadMapData(stageFile);
         }
@@ -41,13 +41,13 @@ namespace AlienShooty.Stage
         }
         private int[,] LoadMapData(string stageFile)
         {
-            _mapSize = new Point(20, 10);
+            _mapSize = new Point(40, 25);
             int[,] mapData = new int[_mapSize.X, _mapSize.Y];
             for (int y = 0; y < _mapSize.Y; y++)
             {
                 for (int x = 0; x < _mapSize.X; x++)
                 {
-                    mapData[x, y] = 13;
+                    mapData[x, y] = 2;
                 }
             }
             return mapData;

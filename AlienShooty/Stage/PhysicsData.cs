@@ -1,24 +1,46 @@
 ﻿using Microsoft.Xna.Framework;
+using nkast.Aether.Physics2D.Dynamics;
 
 namespace AlienShooty.Stage
 {
     public class PhysicsData
     {
-        public Vector2 Position;
-        public Vector2 Velocity;
-        public Rectangle BoundingBox;
-        public float Rotation;
-        public PhysicsData(Vector2 position)
+        public readonly Body Body;
+        private Vector2 _velocity;
+        private float _speed;
+        public PhysicsData(Body body, float speed)
         {
-            Position = position;
-            Velocity = Vector2.Zero;
-            BoundingBox = new Rectangle(0, 0, 0, 0);
-            Rotation = 0;
+            Body = body;
+            _velocity = Vector2.Zero;
+            _speed = speed;
         }
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, InputController inputController)
         {
-            Position += Velocity;
-            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, BoundingBox.Width, BoundingBox.Height);
+            if (inputController.MoveUp)
+            {
+                _velocity.Y = -_speed;
+            }
+            else if (inputController.MoveDown)
+            {
+                _velocity.Y = _speed;
+            }
+            else
+            {
+                _velocity.Y = 0;
+            }
+            if (inputController.MoveLeft)
+            {
+                _velocity.X = -_speed;
+            }
+            else if (inputController.MoveRight)
+            {
+                _velocity.X = _speed;
+            }
+            else
+            {
+                _velocity.X = 0;
+            }
+            Body.LinearVelocity = _velocity;
         }
     }
 }

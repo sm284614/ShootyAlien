@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AlienShooty;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using nkast.Aether.Physics2D.Dynamics;
 
 namespace AlienShooty.Stage
 {
@@ -14,16 +15,17 @@ namespace AlienShooty.Stage
         private Sprite _sprite;
         private InputController _inputController;
         private PhysicsData _physicsData;
-        public Entity(EntityTemplate template, Vector2 position)
+        public Entity(EntityTemplate template, Body body, InputController inputController)
         {
-            _sprite = new Sprite(template.Texture, position);
-            _inputController = new InputController();
-            _physicsData = new PhysicsData(position);
+            _sprite = new Sprite(template.Texture, body.Position);
+            _inputController = inputController;
+            _physicsData = new PhysicsData(body, template.Speed);
         }
         public void Update(GameTime gameTime)
-        {
+        {            
             _inputController.Update(gameTime);
-            _physicsData.Update(gameTime);
+            _physicsData.Update(gameTime, _inputController);
+            _sprite.Update(gameTime, _physicsData.Body.Position, _physicsData.Body.Rotation);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
