@@ -17,7 +17,7 @@ namespace AlienShooty.Stage
         public bool Shoot {get; protected set;}
         public virtual void Update(GameTime gameTime)
         {
-
+            MoveRight = true;
         }
     }
 }

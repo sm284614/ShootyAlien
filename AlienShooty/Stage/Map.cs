@@ -41,7 +41,7 @@ namespace AlienShooty.Stage
         }
         private int[,] LoadMapData(string stageFile)
         {
-            _mapSize = new Point(40, 25);
+            _mapSize = new Point(60, 34);
             int[,] mapData = new int[_mapSize.X, _mapSize.Y];
             for (int y = 0; y < _mapSize.Y; y++)
             {

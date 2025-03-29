@@ -10,7 +10,7 @@ namespace AlienShooty.Stage
 {
     public class InputControllerPlayer : InputController
     {
-        private InputManager _input;        
+        private InputManager _input;
         public InputControllerPlayer(InputManager input)
         {
             _input = input;
