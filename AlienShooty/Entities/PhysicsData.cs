@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using nkast.Aether.Physics2D.Dynamics;
+using AlienShooty.Stage;
 
-namespace AlienShooty.Stage
+namespace AlienShooty.Entities
 {
     public class PhysicsData
     {
         public readonly Body Body;
+        private Rectangle _boundingBox;
+        private float _mass;
+        private Vector2 _position;
         private Vector2 _velocity;
         private float _speed;
         public PhysicsData(Body body, float speed)
@@ -40,7 +43,7 @@ namespace AlienShooty.Stage
             {
                 _velocity.X = 0;
             }
-            Body.LinearVelocity = _velocity;
+            Body.Velocity = _velocity;
         }
     }
 }

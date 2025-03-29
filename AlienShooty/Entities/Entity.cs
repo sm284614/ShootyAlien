@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AlienShooty;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using nkast.Aether.Physics2D.Dynamics;
+using AlienShooty.Stage;
 
-namespace AlienShooty.Stage
+namespace AlienShooty.Entities
 {
     public class Entity
     {

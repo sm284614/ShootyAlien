@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlienShooty.Stage
+namespace AlienShooty.Entities
 {
     public class InputController
     {
