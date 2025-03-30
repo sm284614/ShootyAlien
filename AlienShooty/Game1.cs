@@ -1,5 +1,6 @@
 ﻿using AlienShooty.Interface;
-using AlienShooty.Stage;
+using AlienShooty.Stages;
+using AlienShooty.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,7 +22,7 @@ public class Game1 : Game
     private UserInterface _interface;
     private ContentLoader _contentLoader;
     private InputManager _input;
-    private Area _stage;
+    private Stage _stage;
     private RenderTarget2D _renderTarget;
     private Rectangle _outputRectangle;
     private string _stageFile = "stage1.csv";
@@ -30,7 +31,7 @@ public class Game1 : Game
     public Game1() // from monogame default project
     {
         State = GameState.LoadingMainMenu;
-        _graphics = new GraphicsDeviceManager(this);
+        _graphics = new GraphicsDeviceManager(this);        
         Content.RootDirectory = "Content"; //content is added through "Content/content.mgcb", a little program that comes with Monogame
         IsMouseVisible = true;
     }
@@ -55,6 +56,7 @@ public class Game1 : Game
         _input = new InputManager();
         _interface = new UserInterface(_contentLoader, _input);
         SetGraphics();
+        Debugging.Initialise(_graphics.GraphicsDevice);
     }
 
     protected override void LoadContent() // from monogame default project
@@ -96,11 +98,15 @@ public class Game1 : Game
                 _interface.MainMenu.Update(gameTime);
                 break;
             case GameState.LoadingStage:
-                _stage = new Area(_contentLoader, _stageFile, _input); 
+                _stage = new Stage(_stageFile, _contentLoader, _input, _graphics.GraphicsDevice); 
                 ChangeState(GameState.InStage);
                 break;
             case GameState.InStage:
                 _stage.Update(gameTime);
+                if (_input.KeyReleased(Keys.Escape))
+                {
+                    ChangeState(Game1.GameState.MainMenu);
+                }
                 break;
             case GameState.Paused:                
                 _interface.PauseMenu.Update(gameTime);
@@ -120,8 +126,6 @@ public class Game1 : Game
         //I'd probably rather just call two things and handle the menus inside the interface class:
         //_stage?.Draw(spriteBatch);
         //_interface.Draw(spriteBatch);
-        _spriteBatch.Begin();
-        _spriteBatch.DrawString(_debugFont, State.ToString(), new Vector2(10, 10), Color.White);
         switch (State)
         {
             case GameState.LoadingMainMenu:
@@ -144,11 +148,12 @@ public class Game1 : Game
                 //fade out
                 break;
         }
-        _spriteBatch.End();
+
         GraphicsDevice.SetRenderTarget(null); //rendertarget null draws to the screen
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //pointclamp is nearest neighbour scaling
         _spriteBatch.Draw(_renderTarget, _outputRectangle, Color.White); //draw the texture to the screen area
+        _spriteBatch.DrawString(_debugFont, Debugging.DebugText, new Vector2(10, 10), Color.White);
         _spriteBatch.End();
 
         base.Draw(gameTime);

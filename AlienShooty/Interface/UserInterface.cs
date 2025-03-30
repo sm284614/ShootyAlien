@@ -22,15 +22,7 @@ namespace AlienShooty.Interface
         }
         public void Update(GameTime gameTime)
         {
-            switch (Game1.State)
-            {
-                case Game1.GameState.InStage:
-                    if (_input.KeyReleased(Keys.Escape))
-                    {
-                        Game1.ChangeState(Game1.GameState.Paused);
-                    }
-                    break;
-            }
+
         }   
     }
 }

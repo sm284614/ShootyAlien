@@ -10,17 +10,19 @@ namespace AlienShooty.Entities
 {
     public class InputControllerPlayer : InputController
     {
-        private InputManager _input;
+        private InputManager _input;        
         public InputControllerPlayer(InputManager input)
         {
             _input = input;
         }
         public override void Update(GameTime gameTime)
         {
+            //move
             MoveUp = _input.KeyDown(Keys.W);
             MoveRight = _input.KeyDown(Keys.D);
             MoveDown = _input.KeyDown(Keys.S);
             MoveLeft = _input.KeyDown(Keys.A);
+            //shoot
             Shoot = _input.KeyPressStarted(Keys.Space);
         }
     }

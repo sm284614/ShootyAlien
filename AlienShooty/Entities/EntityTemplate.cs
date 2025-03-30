@@ -11,20 +11,22 @@ namespace AlienShooty.Entities
 {
     public class EntityTemplate
     {
-        public string Name;
-        public string TextureName;
+        public string DisplayName;
+        public string InternalName;
         public Texture2D Texture;
         public float Speed;
         public Vector2 Size;
         public float Density;
-        public EntityTemplate(string name, string textureName, Texture2D texture, float speed, Vector2 size, float density)
+        public InputController.EntityBehaviour DefaultBehaviour;
+        public EntityTemplate(string displayName, string internalName, Texture2D texture, float speed, Vector2 size, float density, InputController.EntityBehaviour defaultBehaviour = InputController.EntityBehaviour.None)
         {
-            Name = name;
-            TextureName = textureName;
+            DisplayName = displayName;
+            InternalName = internalName;
             Texture = texture;
             Speed = speed;
             Size = size;
             Density = density;
+            DefaultBehaviour = defaultBehaviour;
         }
 
     }

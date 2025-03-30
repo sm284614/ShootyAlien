@@ -21,6 +21,7 @@ namespace AlienShooty
             _currentKeyboardState = Keyboard.GetState();
             _currentMouseState = Mouse.GetState();
         }
+        public Vector2 MousePosition { get => _currentMouseState.Position.ToVector2(); }
         public void Update(GameTime gameTime)
         {
             _previousKeyboardState = _currentKeyboardState;

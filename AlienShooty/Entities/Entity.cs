@@ -5,30 +5,49 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AlienShooty.Stage;
+using AlienShooty.Stages;
+using AlienShooty.Utilities;
 
 namespace AlienShooty.Entities
 {
     public class Entity
     {
+        public Stage.StageAction StageAction { get; set; }
+        public PhysicsData PhysicsData { get; protected set; }
+        public Weapon Weapon { get; protected set; }
         private Sprite _sprite;
         private InputController _inputController;
-        private PhysicsData _physicsData;
-        public Entity(EntityTemplate template, Body body, InputController inputController)
+        public Entity(EntityTemplate template, Body body, InputController inputController, Weapon weapon = null)
         {
-            _sprite = new Sprite(template.Texture, body.Position);
+            _sprite = new Sprite(template.Texture, body.Position, rotation: body.Rotation);
             _inputController = inputController;
-            _physicsData = new PhysicsData(body, template.Speed);
+            PhysicsData = new PhysicsData(body, template.Speed);
+            Weapon = weapon;
+            StageAction = Stage.StageAction.None;
         }
         public void Update(GameTime gameTime)
-        {            
-            _inputController.Update(gameTime);
-            _physicsData.Update(gameTime, _inputController);
-            _sprite.Update(gameTime, _physicsData.Body.Position, _physicsData.Body.Rotation);
+        {
+            if (_inputController != null)
+            {
+                _inputController?.Update(gameTime);
+                PhysicsData.Update(gameTime, _inputController);
+            }
+            _sprite.Update(gameTime, PhysicsData.Body.Position, PhysicsData.Body.Rotation);
+            Weapon?.Update(_inputController, gameTime);
+            if (Weapon?.Firing ?? false)
+            {
+                Weapon.Firing = false;
+                StageAction = Stage.StageAction.FireWeapon;
+            }
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void AddWeapon(Weapon weapon)
+        {
+            Weapon = weapon;
+        }
+        public void Draw(SpriteBatch spriteBatch, bool debug = false)
         {
             _sprite.Draw(spriteBatch);
+            Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, PhysicsData.Body.BoundingBox, Color.White);
         }
     }
 }

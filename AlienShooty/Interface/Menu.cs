@@ -25,10 +25,12 @@ namespace AlienShooty.Interface
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
             foreach (Sprite graphic in _graphics)
             {
                 graphic.Draw(spriteBatch);
             }
+            spriteBatch.End();
         }
     }
 }
