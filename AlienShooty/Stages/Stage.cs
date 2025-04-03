@@ -57,12 +57,13 @@ namespace AlienShooty.Stages
             UpdateDebugCommands();
             _mouseWorldPosition = _camera.ConvertScreenToWorld(_input.MousePosition);
             _camera.Update(gameTime);
-            _entityManager.UpdateEntities(gameTime);
+            _entityManager.Update(gameTime);
             _world.Update(gameTime);
+            Debugging.DebugText += $"MouseWorld@{_camera.ConvertScreenToWorld(_input.MousePosition)}";
         }
         private void UpdateDebugCommands()
         {
-            Debugging.DebugText = $"Mouse: {_input.MousePosition} World: {_mouseWorldPosition}\n";
+            //Debugging.DebugText = $"Mouse: {_input.MousePosition} World: {_mouseWorldPosition}\n";
             if (_input.KeyPressStarted(Keys.R))
             {
                 ResetWorld();

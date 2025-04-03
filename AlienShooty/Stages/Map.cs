@@ -83,7 +83,7 @@ namespace AlienShooty.Stages
                 {
                     Texture2D texture = _tileDictionary[_mapData[x, y]].Texture;
                     _drawPosition = new Vector2(x * _tileSize.X, y * _tileSize.Y);
-                    spriteBatch.Draw(texture, _drawPosition, null, Color.White, 0, _halfTileSize, 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(texture, _drawPosition, Color.White);
                 }
             }
         }

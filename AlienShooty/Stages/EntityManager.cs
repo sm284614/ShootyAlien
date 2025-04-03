@@ -1,4 +1,5 @@
 ﻿using AlienShooty.Entities;
+using AlienShooty.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -41,7 +42,7 @@ namespace AlienShooty.Stages
         private void LoadEntityTemplates()
         {
             _entityTemplates = new Dictionary<string, EntityTemplate>();
-            _entityTemplates.Add("player", new EntityTemplate("Player", "player", _contentLoader.LoadTexture("astronaut"), 3, new Vector2(20, 32), 1));
+            _entityTemplates.Add("player", new EntityTemplate("Player", "player", _contentLoader.LoadTexture("astronaut"), 1, new Vector2(16, 16), 1));
             _entityTemplates.Add("enemy", new EntityTemplate("Enemy", "enemy", _contentLoader.LoadTexture("robot"), 8, new Vector2(19, 27), 1, InputController.EntityBehaviour.StraightLine));
             _entityTemplates.Add("gun", new EntityTemplate("Gun", "gun", _contentLoader.LoadTexture("gun"), 8, new Vector2(27, 11), 1));
             _entityTemplates.Add("bullet", new EntityTemplate("bullet", "bullet", _contentLoader.LoadTexture("bullet"), 8, new Vector2(3, 5), 1));
@@ -51,7 +52,7 @@ namespace AlienShooty.Stages
             _weaponTemplates = new Dictionary<string, WeaponTemplate>();
             _weaponTemplates.Add("gun", new WeaponTemplate("Gun", _entityTemplates["gun"], _entityTemplates["bullet"], 5, 4, 100, 30));
         }
-        public void UpdateEntities(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             foreach (Entity entity in _entities)
             {

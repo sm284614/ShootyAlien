@@ -12,6 +12,7 @@ namespace AlienShooty.Stages
         public Vector2 Position;
         public Vector2 Velocity;
         public Vector2 Size;
+        public Vector2 HalfSize;
         public Vector2 Direction;
         public float Rotation;
         public readonly float Mass;
@@ -23,6 +24,7 @@ namespace AlienShooty.Stages
         {
             Position = position;
             Size = size;
+            HalfSize = size / 2;
             Rotation = rotation;
             Density = density;
             Mass = size.X * size.Y * density;
@@ -34,7 +36,7 @@ namespace AlienShooty.Stages
         }
         private void SetBoundingBox()
         {
-            BoundingBox = new Rectangle((Position - Size / 2).ToPoint(), Size.ToPoint());
+            BoundingBox = new Rectangle((Position - HalfSize).ToPoint(), Size.ToPoint());
         }
         public void Update()
         {

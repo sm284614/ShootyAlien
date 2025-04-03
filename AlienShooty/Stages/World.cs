@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AlienShooty.Utilities;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,13 @@ namespace AlienShooty.Stages
         {
             foreach (Body body in _bodies)
             {
+                Debugging.DebugText = $"Player@ {body.Position} : [{body.BoundingBox.Left / _map.TileSize.X},{body.BoundingBox.Top / _map.TileSize.Y}] to [{body.BoundingBox.Right / _map.TileSize.X},{body.BoundingBox.Bottom / _map.TileSize.Y}]\n";
                 if (body.Velocity != Vector2.Zero)
                 {
                     Vector2 intendedPosition = body.Position + body.Velocity;
                     Rectangle intendedBounds = new Rectangle(
-                        (int)intendedPosition.X,
-                        (int)intendedPosition.Y,
+                        (int)(intendedPosition.X - body.HalfSize.X),
+                        (int)(intendedPosition.Y - body.HalfSize.Y),
                         body.BoundingBox.Width,
                         body.BoundingBox.Height);
                     CheckMapCollisions(body, intendedBounds);
@@ -41,6 +43,7 @@ namespace AlienShooty.Stages
             int startY = Math.Max(0, intendedBounds.Top / _map.TileSize.Y);
             int endX = Math.Min(_map.MapSize.X - 1, intendedBounds.Right / _map.TileSize.X);
             int endY = Math.Min(_map.MapSize.Y - 1, intendedBounds.Bottom / _map.TileSize.Y);
+
 
             bool collision = false;
             Vector2 correctedPosition = body.Position + body.Velocity; // Start with intended position
