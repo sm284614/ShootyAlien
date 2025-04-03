@@ -14,6 +14,7 @@ namespace AlienShooty.Entities
         }
         public void Update(GameTime gameTime, InputController inputController)
         {
+            Body.Direction = inputController.Direction - Body.Position;
             if (inputController.MoveUp)
             {
                 Body.Velocity.Y = -_speed;

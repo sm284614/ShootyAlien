@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AlienShooty.Stages;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,10 @@ namespace AlienShooty
             _currentMouseState = Mouse.GetState();
         }
         public Vector2 MousePosition { get => _currentMouseState.Position.ToVector2(); }
+        public Vector2 DirectionToMouse(Vector2 position, Camera camera) 
+        { 
+            return position - camera.ConvertScreenToWorld(MousePosition); 
+        }
         public void Update(GameTime gameTime)
         {
             _previousKeyboardState = _currentKeyboardState;

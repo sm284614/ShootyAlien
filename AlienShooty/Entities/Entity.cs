@@ -29,7 +29,7 @@ namespace AlienShooty.Entities
         {
             if (_inputController != null)
             {
-                _inputController?.Update(gameTime);
+                _inputController?.Update(gameTime);                
                 PhysicsData.Update(gameTime, _inputController);
             }
             _sprite.Update(gameTime, PhysicsData.Body.Position, PhysicsData.Body.Rotation);
@@ -47,7 +47,7 @@ namespace AlienShooty.Entities
         public void Draw(SpriteBatch spriteBatch, bool debug = false)
         {
             _sprite.Draw(spriteBatch);
-            //Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, PhysicsData.Body.BoundingBox, Color.White);
+            Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, PhysicsData.Body.BoundingBox, Color.White);
         }
     }
 }

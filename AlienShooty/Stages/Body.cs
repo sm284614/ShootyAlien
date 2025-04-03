@@ -12,6 +12,7 @@ namespace AlienShooty.Stages
         public Vector2 Position;
         public Vector2 Velocity;
         public Vector2 Size;
+        public Vector2 Direction;
         public float Rotation;
         public readonly float Mass;
         public readonly float Density;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AlienShooty.Stages;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace AlienShooty.Entities
 {
     public class InputControllerPlayer : InputController
     {
-        private InputManager _input;        
+        private InputManager _input;
         public InputControllerPlayer(InputManager input)
         {
             _input = input;
@@ -24,6 +25,8 @@ namespace AlienShooty.Entities
             MoveLeft = _input.KeyDown(Keys.A);
             //shoot
             Shoot = _input.KeyPressStarted(Keys.Space);
+            //get direction
+            Direction = _input.MousePosition;
         }
     }
 }
