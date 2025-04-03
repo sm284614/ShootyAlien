@@ -74,22 +74,13 @@ namespace AlienShooty.Stages
                 (int)viewWidth,
                 (int)viewHeight);
         }
-        public Vector2 ConvertScreenToWorld(Vector2 screenPosition)
+        public Vector2 ConvertScreenToWorld(Vector2 position)
         {
-            // Create the inverse of the camera's transform
             Matrix invertedMatrix = Matrix.Invert(View);
+            Vector3 screenPosition = new Vector3(position.X, position.Y, 0);
+            Vector3 worldPosition = Vector3.Transform(screenPosition, invertedMatrix);
 
-            // Convert screen coordinates to normalized device coordinates
-            Vector3 screenPos = new Vector3(screenPosition.X, screenPosition.Y, 0);
-
-            // Convert to homogeneous clip space
-            screenPos.X = (screenPos.X / _graphics.Viewport.Width) * 2 - 1;
-            screenPos.Y = -((screenPos.Y / _graphics.Viewport.Height) * 2 - 1); // Y is flipped in screen space
-
-            // Transform by inverted view matrix
-            Vector3 worldPos = Vector3.Transform(screenPos, invertedMatrix);
-
-            return new Vector2(worldPos.X, worldPos.Y);
+            return new Vector2(worldPosition.X, worldPosition.Y);
         }
     }
 }

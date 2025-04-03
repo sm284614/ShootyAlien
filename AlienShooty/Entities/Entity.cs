@@ -47,7 +47,7 @@ namespace AlienShooty.Entities
         public void Draw(SpriteBatch spriteBatch, bool debug = false)
         {
             _sprite.Draw(spriteBatch);
-            Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, PhysicsData.Body.BoundingBox, Color.White);
+            //Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, PhysicsData.Body.BoundingBox, Color.White);
         }
     }
 }

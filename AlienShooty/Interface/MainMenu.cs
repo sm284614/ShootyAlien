@@ -21,7 +21,7 @@ namespace AlienShooty.Interface
             {
                 Game1.ChangeState(Game1.GameState.Exiting);
             }
-            if (_input.KeyReleased(Keys.Enter))
+            if (_input.KeyReleased(Keys.Enter) ||_input.KeyReleased(Keys.Space))
             {
                 Game1.ChangeState(Game1.GameState.LoadingStage);
             }

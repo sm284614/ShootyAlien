@@ -96,9 +96,9 @@ namespace AlienShooty.Stages
                     FireWeapon(entity);
                 }
             }
-            foreach (EntitySpawnData entitySpawnData in _spawningEntities)
+            foreach (EntitySpawnData spawnData in _spawningEntities)
             {
-                AddEntity(entitySpawnData);
+                AddEntity(spawnData);
             }
             _spawningEntities.Clear();
         }
