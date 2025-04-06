@@ -29,13 +29,6 @@ namespace AlienShooty.Stages
             _map = new Map(contentLoader, stageFile);
             ResetWorld();
         }
-        public enum StageAction
-        {
-            None,
-            FireWeapon,
-            PlaceTurret,
-            Repair
-        }
         public enum EntityType
         {
             Player,
@@ -49,8 +42,8 @@ namespace AlienShooty.Stages
             _camera.ZoomToScale(2);
             _world = new World(_map);
             _entityManager = new EntityManager(_contentLoader, _world, _input);
-            Entity player =  _entityManager.AddEntity("player", new Vector2(64,64), Vector2.Zero, 0, EntityType.Player);
-            _camera.TrackingBody = player.PhysicsData.Body;
+            Entity player =  _entityManager.AddEntity("player", new Vector2(96,96), Vector2.Zero, 0, EntityType.Player);
+            _camera.TrackingBody = player.Body;
         }
 
         public void Update(GameTime gameTime)
@@ -85,10 +78,10 @@ namespace AlienShooty.Stages
             _entityManager.Draw(spriteBatch);
             if (Game1.DebugMode)
             {
-                _world.Draw(spriteBatch);
+                _world.DrawDebug(spriteBatch);
                 _entityManager.DrawDebug(spriteBatch);
             }
-            _world.Draw(spriteBatch);
+            _world.DrawDebug(spriteBatch);
             spriteBatch.End();
         }
     }

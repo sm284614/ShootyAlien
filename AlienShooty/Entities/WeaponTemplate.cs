@@ -10,8 +10,8 @@ namespace AlienShooty.Entities
     public class WeaponTemplate
     {
         public readonly string Name;
-        public readonly EntityTemplate WeaponEntityTemplate;
-        public readonly EntityTemplate ProjectileEntityTemplate;
+        public readonly EntityTemplate Weapon;
+        public readonly EntityTemplate Projectile;
         public readonly string ProjectileName;
         public readonly float Damage;
         public readonly double FiringDelay;
@@ -23,8 +23,8 @@ namespace AlienShooty.Entities
         public WeaponTemplate(string name, EntityTemplate weaponEntityTemplate, EntityTemplate projectileEntityTemplate, float projectileDamage, float projectilesPerSecond, int ammo, float projectileSpeed, float range = float.MaxValue, float accuracy = 1)
         {
             Name = name;
-            WeaponEntityTemplate = weaponEntityTemplate;
-            ProjectileEntityTemplate = projectileEntityTemplate;
+            Weapon = weaponEntityTemplate;
+            Projectile = projectileEntityTemplate;
             Damage = projectileDamage;
             FiringDelay = 1 / projectilesPerSecond;
             Ammo = ammo;

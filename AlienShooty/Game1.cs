@@ -26,7 +26,7 @@ public class Game1 : Game
     private Stage _stage;
     private RenderTarget2D _renderTarget;
     private Rectangle _outputRectangle;
-    private string _stageFile = "stage1.csv";
+    private string _stageFile = "content/maps/stage01.txt";
     private SpriteFont _debugFont;
 
     public Game1() // from monogame default project
@@ -155,7 +155,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //pointclamp is nearest neighbour scaling
         _spriteBatch.Draw(_renderTarget, _outputRectangle, Color.White); //draw the texture to the screen area
-        _spriteBatch.DrawString(_debugFont, Debugging.DebugText, new Vector2(10, 10), Color.White);
+        if (DebugMode) _spriteBatch.DrawString(_debugFont, Debugging.DebugText, new Vector2(10, 10), Color.White);
         _spriteBatch.End();
 
         base.Draw(gameTime);

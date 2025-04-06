@@ -18,7 +18,7 @@ namespace AlienShooty.Stages
         private List<Weapon> _weapons;
         private List<Entity> _players;
         private List<Entity> _entities;
-        private List<EntitySpawnData> _spawningEntities;
+        private Queue<EntitySpawnData> _spawnQueue;
         private double _spawnTimer;
         private ContentLoader _contentLoader;
         private World _world;
@@ -33,7 +33,7 @@ namespace AlienShooty.Stages
         public void Reset()
         {
             _spawnTimer = 0;
-            _spawningEntities = new List<EntitySpawnData>();
+            _spawnQueue = new Queue<EntitySpawnData>();
             _entities = new List<Entity>();
             _players = new List<Entity>();
             LoadEntityTemplates();
@@ -57,27 +57,30 @@ namespace AlienShooty.Stages
             foreach (Entity entity in _entities)
             {
                 entity.Update(gameTime);
-                if (entity.StageAction == StageAction.FireWeapon)
+                while (entity.PendingCommands.Count > 0)
                 {
-                    FireWeapon(entity);
+                    var command = entity.PendingCommands.Dequeue();
+                    if (command is ShootCommand fire)
+                    {
+                        FireWeapon(fire);
+                    }
                 }
             }
-            foreach (EntitySpawnData spawnData in _spawningEntities)
+            while (_spawnQueue.Count > 0)
             {
+                EntitySpawnData spawnData = _spawnQueue.Dequeue();
                 AddEntity(spawnData);
             }
-            _spawningEntities.Clear();
         }
-        private void FireWeapon(Entity entity)
+        private void FireWeapon(ShootCommand shot)
         {
-            EntityTemplate bulletTemplate = entity.Weapon.Template.ProjectileEntityTemplate;
-            Vector2 direction = entity.PhysicsData.Body.Direction; 
+            EntityTemplate bulletTemplate = shot.Weapon.Template.Projectile;
+            Vector2 direction = shot.Direction;
             direction.Normalize();
-            Vector2 initialBulletPosition = entity.PhysicsData.Body.Position + direction * 20;
-            Vector2 bulletVelocity = direction * entity.Weapon.Template.ProjectileSpeed;
+            Vector2 initialBulletPosition = shot.Source.Body.Position + direction * 20;
+            Vector2 bulletVelocity = direction * shot.Weapon.Template.ProjectileSpeed;
             float bulletRotation = MathF.Atan2(direction.Y, direction.X);
-            _spawningEntities.Add(new EntitySpawnData(bulletTemplate, initialBulletPosition, bulletVelocity, bulletRotation, EntityType.Bullet));
-            entity.StageAction = StageAction.None;
+            _spawnQueue.Enqueue(new EntitySpawnData(bulletTemplate, initialBulletPosition, bulletVelocity, bulletRotation, EntityType.Bullet));
         }
         public Entity AddEntity(string key, Vector2 position, Vector2 velocity, float rotation, EntityType entityType)
         {
@@ -130,7 +133,7 @@ namespace AlienShooty.Stages
         {
             foreach (Entity entity in _entities)
             {
-                Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, entity.PhysicsData.Body.BoundingBox, Color.Blue);
+                Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, entity.Body.BoundingBox, Color.Blue);
             }
         }
     }

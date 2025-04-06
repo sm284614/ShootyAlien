@@ -24,13 +24,13 @@ namespace AlienShooty.Entities
             MoveDown = _input.KeyDown(Keys.S);
             MoveLeft = _input.KeyDown(Keys.A);
             Running = _input.KeyDown(Keys.LeftShift);
-            //shoot
-            Shoot = _input.KeyPressStarted(Keys.Space);
-            ShootUp = _input.KeyPressStarted(Keys.Up);
-            ShootDown = _input.KeyPressStarted(Keys.Down);
-            ShootLeft = _input.KeyPressStarted(Keys.Left);
-            ShootRight = _input.KeyPressStarted(Keys.Right);
-            //get direction
+            //pew pew
+            //Shoot = _input.KeyPressStarted(Keys.Space);
+            ShootUp = _input.KeyDown(Keys.Up);
+            ShootDown = _input.KeyDown(Keys.Down);
+            ShootLeft = _input.KeyDown(Keys.Left);
+            ShootRight = _input.KeyDown(Keys.Right);
+            //get direction (sort of, just store the mouse position to use later, else we need the camera here to get world position from mouse relative to camera)
             Direction = _input.MousePosition;
         }
     }

@@ -18,9 +18,12 @@ namespace AlienShooty.Stages
         public readonly float Mass;
         public readonly float Density;
         public bool Colliding;
+        public bool IsBullet;
+        public Func<Body, bool> OnTileCollision;
+        public Func<Body, bool> OnEntityCollision;
         public Rectangle BoundingBox { get; private set; }
         private BodyType _bodyType;          
-        public Body(Vector2 position, Vector2 size, float density, float rotation, Body.BodyType bodyType)
+        public Body(Vector2 position, Vector2 size, float density, float rotation, Body.BodyType bodyType, bool isBullet = false)
         {
             Position = position;
             Size = size;
@@ -32,7 +35,7 @@ namespace AlienShooty.Stages
             Velocity = Vector2.Zero;
             _bodyType = bodyType;
             SetBoundingBox();
-
+            IsBullet = isBullet;
         }
         private void SetBoundingBox()
         {

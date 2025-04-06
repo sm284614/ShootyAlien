@@ -17,16 +17,17 @@ namespace AlienShooty.Stages
         int EndY;
         public TileBounds(int startX, int startY, int endX, int endY)
         {
-            this.StartX = startX;
-            this.StartY = startY;
-            this.EndX = endX;
-            this.EndY = endY;
+            StartX = startX;
+            StartY = startY;
+            EndX = endX;
+            EndY = endY;
         }
     }
     public class World
     {
         //private float _islandSize;
         private List<Body> _bodies;
+        private readonly List<Body> _deadBodies = new();
         private Map _map;
         private List<Vector2> _collisionCheckingTiles;
         public World(Map map)
@@ -41,7 +42,24 @@ namespace AlienShooty.Stages
             {
                 Debugging.DebugText = $"Player@ {body.Position} : [{body.BoundingBox.Left / _map.TileSize.X},{body.BoundingBox.Top / _map.TileSize.Y}] to [{body.BoundingBox.Right / _map.TileSize.X},{body.BoundingBox.Bottom / _map.TileSize.Y}]\n";
                 CheckMapCollisions(body);
+                CheckOtherBodyCollisions(body);
                 body.Update();
+            }
+            foreach (var body in _deadBodies)
+            {
+                _bodies.Remove(body);
+            }
+            _deadBodies.Clear();
+        }
+        private void CheckOtherBodyCollisions(Body body)
+        {
+            //totally unoptimised for now: check every body vs evey other body
+            foreach (Body otherBody in _bodies)
+            {
+                if (body != otherBody && body.BoundingBox.Intersects(otherBody.BoundingBox))
+                {
+                    body.OnEntityCollision?.Invoke(otherBody);
+                }
             }
         }
         private void CheckMapCollisions(Body body)
@@ -161,7 +179,11 @@ namespace AlienShooty.Stages
             _bodies.Add(body);
             return body;
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void DestroyBody(Body body)
+        {
+            _deadBodies.Add(body);
+        }
+        public void DrawDebug(SpriteBatch spriteBatch)
         {
             if (Game1.DebugMode)
             {

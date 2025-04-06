@@ -22,16 +22,14 @@ namespace AlienShooty.Entities
             _lastFired = 0;
             _ammo = (int)(template.Ammo * remainingAmmoPercent);
         }
-        public void Update(InputController inputController, GameTime gameTime)
+        public bool Fire(GameTime gameTime)
         {
-            if (inputController.Shoot)
+            if (gameTime.TotalGameTime.TotalSeconds - _lastFired > Template.FiringDelay)
             {
-                if (gameTime.TotalGameTime.TotalSeconds - _lastFired > Template.FiringDelay)
-                {
-                    Firing = true;
-                    _lastFired = (float)gameTime.TotalGameTime.TotalSeconds;
-                }
+                _lastFired = (float)gameTime.TotalGameTime.TotalSeconds;
+                return true;
             }
-        }   
+            return false;
+        }
     }
 }
