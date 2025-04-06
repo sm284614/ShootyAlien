@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AlienShooty.Utilities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,13 @@ namespace AlienShooty.Stages
         private int[,] _mapData;
         private Point _mapSize;
         private Point _tileSize;
+        private Vector2 _tileSizeV;
         private Vector2 _halfTileSize;
         Vector2 _drawPosition;
         public Map(ContentLoader contentLoader, string stageFile)
         {
             _tileSize = new Point(32, 32);
+            _tileSizeV = _tileSize.ToVector2();
             _halfTileSize = new Vector2(_tileSize.X / 2, _tileSize.Y / 2);
             _tileSet = contentLoader.LoadTexture("spacestation32");
             Point tileSetSize = new Point(8, 8);
@@ -27,6 +30,7 @@ namespace AlienShooty.Stages
             _mapData = LoadMapData(stageFile);
         }
         public Point TileSize => _tileSize;
+        public Vector2 TileSizeV => _tileSizeV;
         public Point MapSize => _mapSize;
         private Dictionary<int, Tile> LoadTiles(ContentLoader contentLoader, Texture2D tileSet, Point tileSetSize, Point tileSize)
         {
@@ -46,7 +50,7 @@ namespace AlienShooty.Stages
         }
         private int[,] LoadMapData(string stageFile)
         {
-            _mapSize = new Point(60, 34);
+            _mapSize = new Point(15, 11);
             int[,] mapData = new int[_mapSize.X, _mapSize.Y];
             for (int y = 0; y < _mapSize.Y; y++)
             {
@@ -65,8 +69,8 @@ namespace AlienShooty.Stages
                 mapData[x, 0] = 57;
                 mapData[x, _mapSize.Y - 1] = 57;
             }
-            mapData[20, 17] = 34;
-            mapData[20, 18] = 37;
+            mapData[5, 5] = 34;
+            mapData[5, 6] = 37;
             return mapData;
         }
         // TODO: maybe error-proof this? (out-of-bounds X or Y, invalid key)
@@ -76,14 +80,19 @@ namespace AlienShooty.Stages
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-
             for (int y = 0; y < _mapSize.Y; y++)
             {
                 for (int x = 0; x < _mapSize.X; x++)
                 {
-                    Texture2D texture = _tileDictionary[_mapData[x, y]].Texture;
+                    Tile tile = _tileDictionary[_mapData[x, y]];
+                    Texture2D texture = tile.Texture;
                     _drawPosition = new Vector2(x * _tileSize.X, y * _tileSize.Y);
                     spriteBatch.Draw(texture, _drawPosition, Color.White);
+                    if (Game1.DebugMode && tile.IsSolid)
+                    {
+                        Rectangle rectangle = new Rectangle(_drawPosition.ToPoint(), _tileSize);
+                        Debugging.DrawRectangle(spriteBatch, Debugging.BlueTexture, rectangle, Color.White);
+                    }
                 }
             }
         }

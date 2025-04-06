@@ -14,6 +14,11 @@ namespace AlienShooty.Entities
         public bool MoveLeft {get; protected set;}
         public bool MoveRight {get; protected set;}
         public bool Shoot {get; protected set;}
+        public bool ShootUp { get; protected set; }
+        public bool ShootDown { get; protected set; }
+        public bool ShootLeft { get; protected set; }
+        public bool ShootRight { get; protected set; }
+        public bool Running { get; protected set; }
         public Vector2 Direction { get; protected set;}
         public EntityBehaviour Behaviour { get; set; }
         public InputController(EntityBehaviour behaviour = EntityBehaviour.None)

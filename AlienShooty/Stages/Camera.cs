@@ -38,6 +38,11 @@ namespace AlienShooty.Stages
             _currentZoom = MathHelper.Clamp(_currentZoom + zoom, 0.2f, 5f);
             UpdateProjection();
         }
+        public void ZoomToScale(float zoom)
+        {
+            _currentZoom = MathHelper.Clamp(zoom, 0.2f, 5f);
+            UpdateProjection();
+        }
         public void Pan(Vector2 pan)
         {
             _currentPosition += pan;

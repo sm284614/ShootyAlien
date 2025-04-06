@@ -46,9 +46,10 @@ namespace AlienShooty.Stages
         private void ResetWorld()
         {
             _camera.Reset();
+            _camera.ZoomToScale(2);
             _world = new World(_map);
             _entityManager = new EntityManager(_contentLoader, _world, _input);
-            Entity player =  _entityManager.AddEntity("player", Game1.Resolution.ToVector2() / 2, Vector2.Zero, 0, EntityType.Player);
+            Entity player =  _entityManager.AddEntity("player", new Vector2(64,64), Vector2.Zero, 0, EntityType.Player);
             _camera.TrackingBody = player.PhysicsData.Body;
         }
 
@@ -82,6 +83,12 @@ namespace AlienShooty.Stages
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, RasterizerState.CullNone, transformMatrix: _camera.View);
             _map.Draw(spriteBatch);
             _entityManager.Draw(spriteBatch);
+            if (Game1.DebugMode)
+            {
+                _world.Draw(spriteBatch);
+                _entityManager.DrawDebug(spriteBatch);
+            }
+            _world.Draw(spriteBatch);
             spriteBatch.End();
         }
     }

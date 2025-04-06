@@ -17,6 +17,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch; //deals with drawing 2D images
 
     //my stuff
+    public static bool DebugMode = false;
     public static GameState State { get; private set; }
     public static Point Resolution { get; private set; }
     private UserInterface _interface;
@@ -88,6 +89,7 @@ public class Game1 : Game
         //update all this stuff
         _input.Update(gameTime);
         _interface.Update(gameTime);
+        if (_input.KeyReleased(Keys.F11)) DebugMode = !DebugMode;
         switch (State)
         {
             case GameState.LoadingMainMenu:

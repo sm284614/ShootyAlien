@@ -126,5 +126,12 @@ namespace AlienShooty.Stages
                 entity.Draw(spriteBatch);
             }
         }
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            foreach (Entity entity in _entities)
+            {
+                Debugging.DrawRectangle(spriteBatch, Debugging.WhiteTexture, entity.PhysicsData.Body.BoundingBox, Color.Blue);
+            }
+        }
     }
 }
