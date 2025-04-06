@@ -9,17 +9,17 @@ namespace AlienShooty.Entities
 {
     public class InputController
     {
-        public bool MoveUp {get; protected set;}
-        public bool MoveDown {get; protected set;}
-        public bool MoveLeft {get; protected set;}
-        public bool MoveRight {get; protected set;}
-        public bool Shoot {get; protected set;}
+        public bool MoveUp { get; protected set; }
+        public bool MoveDown { get; protected set; }
+        public bool MoveLeft { get; protected set; }
+        public bool MoveRight { get; protected set; }
+        public bool Shoot { get; protected set; }
         public bool ShootUp { get; protected set; }
         public bool ShootDown { get; protected set; }
         public bool ShootLeft { get; protected set; }
         public bool ShootRight { get; protected set; }
         public bool Running { get; protected set; }
-        public Vector2 Direction { get; protected set;}
+        public Vector2 Direction { get; protected set; }
         public EntityBehaviour Behaviour { get; set; }
         public InputController(EntityBehaviour behaviour = EntityBehaviour.None)
         {
@@ -35,6 +35,7 @@ namespace AlienShooty.Entities
         {
             None,
             StraightLine,
+            Wander,
             Chase
         }
         public virtual void Update(GameTime gameTime)
@@ -44,15 +45,29 @@ namespace AlienShooty.Entities
                 case EntityBehaviour.StraightLine:
                     StraightLine();
                     break;
+                case EntityBehaviour.Wander:
+                    Wander(gameTime);
+                    break;
                 case EntityBehaviour.Chase:
                     break;
                 default:
                     break;
-            }    
+            }
         }
         public void StraightLine()
         {
             MoveRight = true;
+        }
+        public void Wander(GameTime gameTime)
+        {
+            if (Random.Shared.NextDouble() < 0.01)
+            {
+                Direction = new Vector2(Random.Shared.Next(-1, 2), Random.Shared.Next(-1, 2));
+            }
+            MoveRight = Direction.X > 0;
+            MoveLeft = Direction.X < 0;
+            MoveUp = Direction.Y < 0;
+            MoveDown = Direction.Y > 0;
         }
     }
 }

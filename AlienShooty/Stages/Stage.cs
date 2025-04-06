@@ -27,7 +27,7 @@ namespace AlienShooty.Stages
             _camera = new Camera(graphics);
             _contentLoader = contentLoader;
             _map = new Map(contentLoader, stageFile);
-            ResetWorld();
+            Reset();
         }
         public enum EntityType
         {
@@ -36,7 +36,7 @@ namespace AlienShooty.Stages
             Bullet,
             Turret
         }
-        private void ResetWorld()
+        private void Reset()
         {
             _camera.Reset();
             _camera.ZoomToScale(2);
@@ -57,10 +57,9 @@ namespace AlienShooty.Stages
         }
         private void UpdateDebugCommands()
         {
-            //Debugging.DebugText = $"Mouse: {_input.MousePosition} World: {_mouseWorldPosition}\n";
             if (_input.KeyPressStarted(Keys.R))
             {
-                ResetWorld();
+                Reset();
             }
             if (_input.KeyDown(Keys.OemPlus))
             {

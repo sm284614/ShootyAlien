@@ -42,8 +42,8 @@ namespace AlienShooty.Stages
         private void LoadEntityTemplates()
         {
             _entityTemplates = new Dictionary<string, EntityTemplate>();
-            _entityTemplates.Add("player", new EntityTemplate("Player", "player", _contentLoader.LoadTexture("astronaut"), 1, new Vector2(16, 16), 1));
-            _entityTemplates.Add("enemy", new EntityTemplate("Enemy", "enemy", _contentLoader.LoadTexture("robot"), 8, new Vector2(19, 27), 1, InputController.EntityBehaviour.StraightLine));
+            _entityTemplates.Add("player", new EntityTemplate("Player", "player", _contentLoader.LoadTexture("astronaut"), 2, new Vector2(16, 16), 1));
+            _entityTemplates.Add("enemy", new EntityTemplate("Enemy", "enemy", _contentLoader.LoadTexture("alien"), 3, new Vector2(19, 27), 1, InputController.EntityBehaviour.Wander));
             _entityTemplates.Add("gun", new EntityTemplate("Gun", "gun", _contentLoader.LoadTexture("gun"), 8, new Vector2(27, 11), 1));
             _entityTemplates.Add("bullet", new EntityTemplate("bullet", "bullet", _contentLoader.LoadTexture("bullet"), 8, new Vector2(3, 5), 1));
         }
@@ -66,6 +66,7 @@ namespace AlienShooty.Stages
                     }
                 }
             }
+            SpawnEnemiesOnTimer(gameTime);
             while (_spawnQueue.Count > 0)
             {
                 EntitySpawnData spawnData = _spawnQueue.Dequeue();
@@ -111,13 +112,13 @@ namespace AlienShooty.Stages
                     throw new NotImplementedException($"Entity type {spawnData.EntityType} not supported");
             }
         }
-        public void SpawnEnemies(GameTime gameTime)
+        public void SpawnEnemiesOnTimer(GameTime gameTime)
         {
             _spawnTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            if (_spawnTimer > 0.5)
+            if (_spawnTimer > 3)
             {
                 _spawnTimer = 0;
-                Vector2 position = new Vector2(0, Random.Shared.Next(0, Game1.Resolution.Y));
+                Vector2 position = new Vector2(48, Random.Shared.Next(80, 320));
                 EntitySpawnData spawnData = new EntitySpawnData(_entityTemplates["enemy"], position, Vector2.Zero, 0, EntityType.Enemy);
                 AddEntity(spawnData);
             }
